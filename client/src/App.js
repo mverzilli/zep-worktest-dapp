@@ -19,7 +19,7 @@ class App extends Component {
     storageValue: 0,
     web3: null,
     accounts: null,
-    contract: null,
+    contract: null
   };
 
   getGanacheAddresses = async () => {
@@ -154,6 +154,21 @@ class App extends Component {
   //   this.getCount();
   // };
 
+  onBuyToken = async token => {
+    console.log("hello");
+    const { contract, accounts } = this.state;
+    console.log('goodbye');
+    console.log(token);
+
+    await contract.methods.awardItem(
+      accounts[0],
+      token.id,
+      token.uri,
+      token.price,
+      token.signature
+    ).send({ from: accounts[0], value: token.price });
+  }
+
   // decreaseCount = async number => {
   //   const { accounts, contract } = this.state;
   //   await contract.methods.decreaseCounter(number).send({ from: accounts[0] });
@@ -177,15 +192,31 @@ class App extends Component {
   }
 
   renderBody() {
-    const { hotLoaderDisabled, networkType, accounts, ganacheAccounts } = this.state;
+    const {
+      hotLoaderDisabled,
+      networkType,
+      accounts,
+      ganacheAccounts,
+      contract,
+      web3
+    } = this.state;
+
     const updgradeCommand = networkType === 'private' && !hotLoaderDisabled ? 'upgrade-auto' : 'upgrade';
+
+    if (!accounts) return <div>Loading...</div>;
+
     return (
       <div className={styles.wrapper}>
-        {!this.state.web3 && this.renderLoader()}
-        {this.state.web3 && this.state.contract && (
+        {!web3 && this.renderLoader()}
+        {web3 && contract && (
           <div className={styles.contracts}>
             <h1>MagicToken Contract is good to Go!</h1>
-            <TokenList />
+            <TokenList
+              buyer={accounts[0]}
+              onTokenClick={async t => this.onBuyToken(t)}
+              contract={contract}
+              web3={web3}
+            />
             <div className={styles.widgets}>
               <Web3Info {...this.state} />
               <CounterUI decrease={this.decreaseCount} increase={this.increaseCount} {...this.state} />
