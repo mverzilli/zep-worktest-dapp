@@ -6,15 +6,11 @@ import "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol
 import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC721/ERC721Full.sol";
 
 contract MagicToken is Initializable, ERC721Full, Ownable {
-  //it keeps a count to demonstrate stage changes
-  uint private count;
-
-  function initialize(uint num) public initializer {
+  function initialize() public initializer {
     Ownable.initialize(msg.sender);
     ERC721.initialize();
     ERC721Enumerable.initialize();
     ERC721Metadata.initialize("MyNFT", "MNFT");
-    count = num;
   }
 
   function awardItem(
