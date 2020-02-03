@@ -48,8 +48,16 @@ async function main() {
     accounts[0]
   );
 
-  console.log("hash is: ", hash);
-  console.log("signature is: ", signature);
+  console.log("Signature hash is: ", hash);
+
+  const token = {
+    id: process.env.TOKEN_ID,
+    price: process.env.TOKEN_PRICE,
+    uri: process.env.TOKEN_URI,
+    signature
+  }
+
+  console.log("Signed token: \n", JSON.stringify(token));
 
   return;
 }
