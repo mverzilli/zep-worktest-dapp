@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './header.module.scss';
 import logo from './stater-kits-logo.png';
 
-const Header = () => (
+const Header = ({current, onSwitchPage}) => (
   <div className={styles.header}>
     <nav id="menu" className="menu">
       <div className={styles.brand}>
@@ -13,27 +13,15 @@ const Header = () => (
       </div>
       <ul>
         <li>
-          <a href="/" className={styles.link}>
+          <a href="#" className={current === 'seller' ? styles.currentLink : styles.link} onClick={() => onSwitchPage('seller')}>
             {' '}
-            Setup
+            Seller
           </a>
         </li>
         <li>
-          <a href="/counter" className={styles.link}>
+          <a href="#" className={current === 'buyer' ? styles.currentLink : styles.link} onClick={() => onSwitchPage('buyer')}>
             {' '}
-            Counter
-          </a>
-        </li>
-        <li>
-          <a href="/evm" className={styles.link}>
-            {' '}
-            EVM Packages
-          </a>
-        </li>
-        <li>
-          <a href="/faq" className={styles.link}>
-            {' '}
-            FAQ
+            Buyer
           </a>
         </li>
       </ul>

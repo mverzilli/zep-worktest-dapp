@@ -51,6 +51,13 @@
           font-family: 'Roboto Mono', monospace;
           letter-spacing: 0.8px;
           opacity: 0.8;
+          padding: 10px;
+
+          &.currentLink {
+            font-weight: 800;
+            color: $primary;
+            background-color: $white;
+          }
 
           &:hover {
             opacity: 1;

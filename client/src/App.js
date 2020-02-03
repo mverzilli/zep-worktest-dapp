@@ -19,7 +19,8 @@ class App extends Component {
     storageValue: 0,
     web3: null,
     accounts: null,
-    contract: null
+    contract: null,
+    route: 'seller'
   };
 
   getGanacheAddresses = async () => {
@@ -65,9 +66,11 @@ class App extends Component {
       if (Counter.networks) {
         deployedNetwork = Counter.networks[networkId.toString()];
         if (deployedNetwork) {
+          window.contractAbi = Counter.abi;
           instance = new web3.eth.Contract(Counter.abi, deployedNetwork && deployedNetwork.address);
         }
       }
+      window.contractInstance = instance;
       console.log(instance);
       if (Wallet.networks) {
         deployedNetwork = Wallet.networks[networkId.toString()];
@@ -148,17 +151,8 @@ class App extends Component {
     this.setState({ tokenOwner: response.toString() === accounts[0].toString() });
   };
 
-  // increaseCount = async number => {
-  //   const { accounts, contract } = this.state;
-  //   await contract.methods.increaseCounter(number).send({ from: accounts[0] });
-  //   this.getCount();
-  // };
-
   onBuyToken = async token => {
-    console.log("hello");
     const { contract, accounts } = this.state;
-    console.log('goodbye');
-    console.log(token);
 
     await contract.methods.awardItem(
       accounts[0],
@@ -168,12 +162,6 @@ class App extends Component {
       token.signature
     ).send({ from: accounts[0], value: token.price });
   }
-
-  // decreaseCount = async number => {
-  //   const { accounts, contract } = this.state;
-  //   await contract.methods.decreaseCounter(number).send({ from: accounts[0] });
-  //   this.getCount();
-  // };
 
   renounceOwnership = async number => {
     const { accounts, wallet } = this.state;
@@ -196,14 +184,29 @@ class App extends Component {
       hotLoaderDisabled,
       networkType,
       accounts,
-      ganacheAccounts,
-      contract,
-      web3
+      route
     } = this.state;
 
     const updgradeCommand = networkType === 'private' && !hotLoaderDisabled ? 'upgrade-auto' : 'upgrade';
 
     if (!accounts) return <div>Loading...</div>;
+
+    switch (route) {
+      case 'buyer':
+        return this.renderBuyer();
+      default:
+        return this.renderSeller();
+    }
+  }
+
+  renderBuyer() {
+    const {
+      web3,
+      contract,
+      ganacheAccounts,
+      accounts,
+      updgradeCommand
+    } = this.state;
 
     return (
       <div className={styles.wrapper}>
@@ -233,12 +236,22 @@ class App extends Component {
     );
   }
 
+  renderSeller() {
+    return <div>Screen for seller</div>
+  }
+
   render() {
+    const { route } = this.state;
     return (
       <div className={styles.App}>
+        <Header current={route} onSwitchPage={page => this.onSwitchPage(page)} />
         {this.renderBody()}
       </div>
     );
+  }
+
+  onSwitchPage(page) {
+    this.setState({ route: page });
   }
 }
 
