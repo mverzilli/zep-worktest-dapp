@@ -14,7 +14,9 @@ export default ({ account, conversionFunction }) => {
       <div className={styles.wrapper}>
         <div className={styles.gallery}>
           {
-            tokens['tokens'].map(t => <Token token={t} conversionFunction={conversionFunction} />)
+            tokens['tokens'].map((t, i) => (
+              <Token token={t} conversionFunction={conversionFunction} sold={i % 2 === 0} />
+            ))
           }
         </div>
       </div>
