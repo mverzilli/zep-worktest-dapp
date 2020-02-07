@@ -30,11 +30,11 @@ const sign = async (web3, contract, address, token) => {
 
 const buildToken = (web3, contract, address, id) => {
   return {
-    id,
+    id: `${id}`,
     uri: `${id}`,
-    price: 100,
+    price: 1,
     owner: null,
-    signature: null
+    signature: '0xdcad33b5b85d0814b75e63da0add29a6de9f883c19e00699fbe306a8f5c1b4c26d20db40466838786159e74de17e9b7273915d8a61404f2774ae390f4d6e1bb81b'
   };
 }
 

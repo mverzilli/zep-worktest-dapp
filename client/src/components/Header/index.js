@@ -6,9 +6,9 @@ const Header = ({current, onSwitchPage}) => (
   <div className={styles.header}>
     <nav id="menu" className="menu">
       <div className={styles.brand}>
-        <a href="/" className={styles.link}>
+        <a href="/" className={styles.logo}>
           {' '}
-          {<img src={logo} alt="logo" />}
+          The MagicToken Shop
         </a>
       </div>
       <ul>

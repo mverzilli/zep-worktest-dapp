@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PublicAddress, Button } from 'rimble-ui';
+// import { Button } from 'rimble-ui';
 import styles from './Wallet.module.scss';
 
 export default class Wallet extends Component {
@@ -11,7 +11,7 @@ export default class Wallet extends Component {
         <div className={styles.dataPoint}>
           <div className={styles.label}>Instance address:</div>
           <div className={styles.value}>
-            <PublicAddress address={wallet._address} />
+            {/* <PublicAddress address={wallet._address} /> */}
           </div>
         </div>
         <div className={styles.dataPoint}>
@@ -20,9 +20,9 @@ export default class Wallet extends Component {
         </div>
         <div className={styles.label}>Wallet Actions</div>
         <div className={styles.buttons}>
-          <Button disabled={!tokenOwner} onClick={() => this.props.renounce()} size="medium">
+          {/* <Button disabled={!tokenOwner} onClick={() => this.props.renounce()} size="medium"> */}
             Renounce Ownership
-          </Button>
+          {/* </Button> */}
         </div>
       </div>
     );

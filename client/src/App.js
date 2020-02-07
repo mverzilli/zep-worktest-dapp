@@ -3,7 +3,7 @@ import getWeb3, { getGanacheWeb3 } from './utils/getWeb3';
 import Header from './components/Header/index.js';
 import Footer from './components/Footer/index.js';
 import Hero from './components/Hero/index.js';
-import Web3Info from './components/Web3Info/index.js';
+// import Web3Info from './components/Web3Info/index.js';
 import CounterUI from './components/Counter/index.js';
 import TokenList from './components/TokenList/index.js';
 import Wallet from './components/Wallet/index.js';
@@ -13,6 +13,7 @@ import { Loader } from 'rimble-ui';
 import { solidityLoaderOptions } from '../config/webpack';
 
 import styles from './App.module.scss';
+import Seller from './components/Seller';
 
 class App extends Component {
   state = {
@@ -184,18 +185,19 @@ class App extends Component {
       hotLoaderDisabled,
       networkType,
       accounts,
-      route
+      route,
+      web3
     } = this.state;
 
     const updgradeCommand = networkType === 'private' && !hotLoaderDisabled ? 'upgrade-auto' : 'upgrade';
 
-    if (!accounts) return <div>Loading...</div>;
+    if (!accounts || !web3) return <div>Loading...</div>;
 
     switch (route) {
       case 'buyer':
         return this.renderBuyer();
       default:
-        return this.renderSeller();
+        return <Seller account={accounts[0]} conversionFunction={web3.utils.fromWei} />;
     }
   }
 
@@ -221,7 +223,6 @@ class App extends Component {
               web3={web3}
             />
             <div className={styles.widgets}>
-              <Web3Info {...this.state} />
               <CounterUI decrease={this.decreaseCount} increase={this.increaseCount} {...this.state} />
             </div>
             {this.state.balance < 0.1 && (
@@ -236,11 +237,7 @@ class App extends Component {
     );
   }
 
-  renderSeller() {
-    return <div>Screen for seller</div>
-  }
-
-  render() {
+   render() {
     const { route } = this.state;
     return (
       <div className={styles.App}>

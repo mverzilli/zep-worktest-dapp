@@ -1,0 +1,43 @@
+@import '../../layout/variables.scss';
+
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 10px;
+  width: 80%;
+  max-width: 1024px;
+  padding: 1rem;
+  margin-top: 80px;
+}
+
+.address {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 100%;
+  padding: 1rem;
+  border-top: solid 1px #EEE;
+  border-bottom: solid 1px #EEE;
+  position: fixed;
+  top: 60px;
+  z-index: 1000;
+  background-color: white;
+}
+
+.ethAddressLabel {
+  width: 630px;
+  text-align: right;
+}
+
+.ethAddress {
+  max-width: 630px;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 10px;
+  grid-row: 8;
+  grid-column: span 6;
+}
+
