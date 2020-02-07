@@ -28,5 +28,5 @@ Before running the script, there are some necessary configuration steps:
    2. TOKEN_ID: the id for the token you want to sign.
    3. TOKEN_URI: the uri of the token you want to sign.
    4. TOKEN_PRICE: the price for the token you want to sign.
-4. After a couple of seconds, the script will print the token's signature and signed hash (the latter just for debugging purposes).
+4. After a couple of seconds, the script will print the token object. You can copy it from the console and add it to the `data/tokens.json` file, so the dapp picks it up.
 
