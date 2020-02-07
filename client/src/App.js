@@ -21,7 +21,8 @@ class App extends Component {
     web3: null,
     accounts: null,
     contract: null,
-    route: 'seller'
+    route: 'seller',
+    soldTokens: null
   };
 
   getGanacheAddresses = async () => {
@@ -129,19 +130,24 @@ class App extends Component {
 
   refreshValues = (instance, instanceWallet) => {
     if (instance) {
-      this.queryBuyerTokens();
+      this.queryTokens();
     }
     if (instanceWallet) {
       this.updateTokenOwner();
     }
   };
 
-  queryBuyerTokens = async () => {
+  queryTokens = async () => {
     const { contract, accounts } = this.state;
     // Get the value from the contract to prove it worked.
-    const response = await contract.methods.balanceOf(accounts[0]).call();
+    const totalSupply = await contract.methods.totalSupply().call();
+
+    const soldTokens = await Promise.all([...Array(totalSupply).keys()].map(tokenIndex => {
+      return contract.methods.tokenByIndex(tokenIndex).call();
+    }));
+
     // Update state with the result.
-    this.setState({ count: response });
+    this.setState({ soldTokens });
   };
 
   updateTokenOwner = async () => {
@@ -186,7 +192,8 @@ class App extends Component {
       networkType,
       accounts,
       route,
-      web3
+      web3,
+      soldTokens
     } = this.state;
 
     const updgradeCommand = networkType === 'private' && !hotLoaderDisabled ? 'upgrade-auto' : 'upgrade';
@@ -197,7 +204,13 @@ class App extends Component {
       case 'buyer':
         return this.renderBuyer();
       default:
-        return <Seller account={accounts[0]} conversionFunction={web3.utils.fromWei} />;
+        return (
+          <Seller
+            account={accounts[0]}
+            conversionFunction={web3.utils.fromWei}
+            soldTokens={soldTokens}
+          />
+        );
     }
   }
 
