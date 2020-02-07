@@ -14,6 +14,7 @@ import { solidityLoaderOptions } from '../config/webpack';
 
 import styles from './App.module.scss';
 import Seller from './components/Seller';
+import Buyer from './components/Buyer';
 
 class App extends Component {
   state = {
@@ -22,7 +23,8 @@ class App extends Component {
     accounts: null,
     contract: null,
     route: 'seller',
-    soldTokens: null
+    soldTokens: null,
+    ownTokens: null
   };
 
   getGanacheAddresses = async () => {
@@ -146,8 +148,13 @@ class App extends Component {
       return contract.methods.tokenByIndex(tokenIndex).call();
     }));
 
+    const ownTokensSupply = await contract.methods.balanceOf(accounts[0]);
+    const ownTokens = await Promise.all([...Array(ownTokensSupply).keys()].map(tokenIndex => {
+      return contract.methods.tokenOfOwnerByIndex(accounts[0], tokenIndex).call();
+    }));
+
     // Update state with the result.
-    this.setState({ soldTokens });
+    this.setState({ soldTokens, ownTokens });
   };
 
   updateTokenOwner = async () => {
@@ -193,7 +200,9 @@ class App extends Component {
       accounts,
       route,
       web3,
-      soldTokens
+      soldTokens,
+      ownTokens,
+      contract
     } = this.state;
 
     const updgradeCommand = networkType === 'private' && !hotLoaderDisabled ? 'upgrade-auto' : 'upgrade';
@@ -202,7 +211,14 @@ class App extends Component {
 
     switch (route) {
       case 'buyer':
-        return this.renderBuyer();
+        return (
+          <Buyer
+            account={accounts[0]}
+            conversionFunction={web3.utils.fromWei}
+            soldTokens={soldTokens}
+            ownTokens={ownTokens}
+          />
+        );
       default:
         return (
           <Seller
@@ -212,42 +228,6 @@ class App extends Component {
           />
         );
     }
-  }
-
-  renderBuyer() {
-    const {
-      web3,
-      contract,
-      ganacheAccounts,
-      accounts,
-      updgradeCommand
-    } = this.state;
-
-    return (
-      <div className={styles.wrapper}>
-        {!web3 && this.renderLoader()}
-        {web3 && contract && (
-          <div className={styles.contracts}>
-            <h1>MagicToken Contract is good to Go!</h1>
-            <TokenList
-              buyer={accounts[0]}
-              onTokenClick={async t => this.onBuyToken(t)}
-              contract={contract}
-              web3={web3}
-            />
-            <div className={styles.widgets}>
-              <CounterUI decrease={this.decreaseCount} increase={this.increaseCount} {...this.state} />
-            </div>
-            {this.state.balance < 0.1 && (
-              <Instructions ganacheAccounts={ganacheAccounts} name="metamask" accounts={accounts} />
-            )}
-            {this.state.balance >= 0.1 && (
-              <Instructions ganacheAccounts={this.state.ganacheAccounts} name={updgradeCommand} accounts={accounts} />
-            )}
-          </div>
-        )}
-      </div>
-    );
   }
 
    render() {

@@ -1,0 +1,12 @@
+@import '../../layout/variables.scss';
+
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 10px;
+  width: 80%;
+  max-width: 1024px;
+  padding: 1rem;
+  margin-top: 80px;
+}
+

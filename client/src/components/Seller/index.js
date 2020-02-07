@@ -3,35 +3,30 @@ import { EthAddress, Text, Loader, Heading } from 'rimble-ui';
 import Token from '../Token';
 import styles from './Seller.module.scss';
 import tokens from '../../data/tokens';
+import AccountStatus from '../AccountStatus';
+import Grid from '../Grid';
+import TokenGallery from '../TokenGallery';
 
 export default ({ account, conversionFunction, soldTokens }) => {
   return (
     <Fragment>
-      <div className={styles.address}>
-        <Text className={styles.ethAddress}>Currently connected to Rinkeby with address</Text>
-        <EthAddress className={styles.ethAddress} address={account} textLabels />
-      </div>
-      <div className={styles.wrapper}>
+      <AccountStatus account={account} />
+      <Grid>
         <Heading.h1 className={styles.heading}>
           Token Gallery
         </Heading.h1>
         <Text className={styles.subheading}>Monitor which tokens you have sold so far.</Text>
         { soldTokens ?
           (
-            <div className={styles.gallery}>
-              {tokens['tokens'].map(t => (
-                <Token token={t} conversionFunction={conversionFunction} sold={soldTokens.includes(t.id)} />
-              ))}
-            </div>
+            <TokenGallery
+              tokens={tokens['tokens']}
+              soldTokens={soldTokens}
+              conversionFunction={conversionFunction}
+            />
           )
-          : (
-            <div className={styles.loadingTokens}>
-              <Loader size="60px" />
-              <Text className={styles.loadingTokensLabel}>Loading token list...</Text>
-            </div>
-          )
+          : <Loader label="Loading token list..." />
         }
-      </div>
+      </Grid>
     </Fragment>
   );
 };

@@ -1,0 +1,19 @@
+@import '../../layout/variables.scss';
+
+.catalog {
+  grid-row: 8;
+  grid-column: span 6;
+}
+
+.userTokens {
+  grid-row: 20;
+  grid-column: span 6;
+}
+
+.heading {
+  margin-bottom: 3rem;
+}
+
+.yourTokens {
+  margin-bottom: 3rem;
+}

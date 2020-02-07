@@ -1,0 +1,10 @@
+@import '../../layout/variables.scss';
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 10px;
+  grid-row: 12;
+  grid-column: span 6;
+}
+

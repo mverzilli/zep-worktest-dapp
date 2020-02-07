@@ -1,0 +1,24 @@
+@import '../../layout/variables.scss';
+
+.address {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 100%;
+  padding: 1rem;
+  border-top: solid 1px #EEE;
+  border-bottom: solid 1px #EEE;
+  position: fixed;
+  top: 60px;
+  z-index: 1000;
+  background-color: white;
+}
+
+.ethAddressLabel {
+  width: 630px;
+  text-align: right;
+}
+
+.ethAddress {
+  max-width: 630px;
+}
