@@ -1,0 +1,32 @@
+{
+  "files": {
+    "main.css": "/static/css/main.be647c17.chunk.css",
+    "main.js": "/static/js/main.6c73f87c.chunk.js",
+    "main.js.map": "/static/js/main.6c73f87c.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.88d4f3f8.js",
+    "runtime-main.js.map": "/static/js/runtime-main.88d4f3f8.js.map",
+    "static/js/2.0fd26805.chunk.js": "/static/js/2.0fd26805.chunk.js",
+    "static/js/2.0fd26805.chunk.js.map": "/static/js/2.0fd26805.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.a5e326a225ee68d3499cb64689518ffc.js": "/precache-manifest.a5e326a225ee68d3499cb64689518ffc.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.be647c17.chunk.css.map": "/static/css/main.be647c17.chunk.css.map",
+    "static/js/2.0fd26805.chunk.js.LICENSE": "/static/js/2.0fd26805.chunk.js.LICENSE",
+    "static/media/MagicToken.sol": "/static/media/MagicToken.0ee01e14.sol",
+    "static/media/Wallet.sol": "/static/media/Wallet.28b0957a.sol",
+    "static/media/github.svg": "/static/media/github.fb24292f.svg",
+    "static/media/magictoken.png": "/static/media/magictoken.a23208f6.png",
+    "static/media/mail.svg": "/static/media/mail.e1a7f3db.svg",
+    "static/media/pic_bg.png": "/static/media/pic_bg.7ce22c1f.png",
+    "static/media/sold.png": "/static/media/sold.fc85a5be.png",
+    "static/media/stater-kits-logo.png": "/static/media/stater-kits-logo.bf009573.png",
+    "static/media/twitter.svg": "/static/media/twitter.75ee96fa.svg",
+    "static/media/zeppelin_logo.svg": "/static/media/zeppelin_logo.b778f9a8.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.88d4f3f8.js",
+    "static/js/2.0fd26805.chunk.js",
+    "static/css/main.be647c17.chunk.css",
+    "static/js/main.6c73f87c.chunk.js"
+  ]
+}
