@@ -4,7 +4,13 @@ import styles from './Token.module.scss';
 import magictoken from '../../images/magictoken.png';
 import soldImage from '../../images/sold.png';
 
-export default ({ token, conversionFunction, sold, buyable }) => {
+export default ({
+  token,
+  conversionFunction,
+  sold,
+  buyable,
+  onBuyToken
+}) => {
   return (
     <Card className={styles.container}>
       <Image maxWidth={100} src={magictoken} />
@@ -12,7 +18,15 @@ export default ({ token, conversionFunction, sold, buyable }) => {
       <Heading.h3>Token #{token.id}</Heading.h3>
       <Heading.h5>{conversionFunction(token.price, "ether")} ETH</Heading.h5>
       <Text>({token.price} wei)</Text>
-      { !sold && buyable && <Button className={styles.buy}>Buy</Button> }
+      { !sold && buyable && (
+        <Button
+          className={styles.buy}
+          onClick={() => onBuyToken(token)}
+        >
+          Buy
+        </Button>
+        )
+      }
     </Card>
   );
 };

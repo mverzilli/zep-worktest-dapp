@@ -15,6 +15,7 @@ import { solidityLoaderOptions } from '../config/webpack';
 import styles from './App.module.scss';
 import Seller from './components/Seller';
 import Buyer from './components/Buyer';
+import BuyToken from './components/BuyToken';
 
 class App extends Component {
   state = {
@@ -22,7 +23,7 @@ class App extends Component {
     web3: null,
     accounts: null,
     contract: null,
-    route: 'seller',
+    route: { id: 'seller' },
     soldTokens: null,
     ownTokens: null
   };
@@ -144,7 +145,12 @@ class App extends Component {
     // Get the value from the contract to prove it worked.
     const totalSupply = await contract.methods.totalSupply().call();
 
-    const soldTokens = await Promise.all([...Array(totalSupply).keys()].map(tokenIndex => {
+    let indexes = [];
+    for (let index = 0; index < totalSupply; index++) {
+      indexes.push(index);
+    }
+
+    const soldTokens = await Promise.all(indexes.map(tokenIndex => {
       return contract.methods.tokenByIndex(tokenIndex).call();
     }));
 
@@ -166,15 +172,22 @@ class App extends Component {
   };
 
   onBuyToken = async token => {
-    const { contract, accounts } = this.state;
+    const { accounts, contract } = this.state;
 
-    await contract.methods.awardItem(
-      accounts[0],
-      token.id,
-      token.uri,
-      token.price,
-      token.signature
-    ).send({ from: accounts[0], value: token.price });
+    this.setState({
+      route: {
+        id: 'buyToken',
+        currentToken: token
+      }
+    }, async () => {
+      await contract.methods.awardItem(
+        accounts[0],
+        token.id,
+        token.uri,
+        token.price,
+        token.signature
+      ).send({ from: accounts[0], value: token.price });
+    });
   }
 
   renounceOwnership = async number => {
@@ -209,7 +222,7 @@ class App extends Component {
 
     if (!accounts || !web3) return <div>Loading...</div>;
 
-    switch (route) {
+    switch (route.id) {
       case 'buyer':
         return (
           <Buyer
@@ -217,6 +230,15 @@ class App extends Component {
             conversionFunction={web3.utils.fromWei}
             soldTokens={soldTokens}
             ownTokens={ownTokens}
+            onBuyToken={token => this.onBuyToken(token)}
+          />
+        );
+      case 'buyToken':
+        return (
+          <BuyToken
+            token={route.currentToken}
+            conversionFunction={web3.utils.fromWei}
+            account={accounts[0]}
           />
         );
       default:
@@ -234,14 +256,14 @@ class App extends Component {
     const { route } = this.state;
     return (
       <div className={styles.App}>
-        <Header current={route} onSwitchPage={page => this.onSwitchPage(page)} />
+        <Header current={route.id} onSwitchPage={page => this.onSwitchPage(page)} />
         {this.renderBody()}
       </div>
     );
   }
 
   onSwitchPage(page) {
-    this.setState({ route: page });
+    this.setState({route: { id: page }});
   }
 }
 

@@ -29,7 +29,8 @@ export default ({
   soldTokens,
   ownTokens,
   account,
-  conversionFunction
+  conversionFunction,
+  onBuyToken
 }) => {
   const tokens = tokenData["tokens"];
 
@@ -50,6 +51,7 @@ export default ({
               tokens={availableTokens}
               conversionFunction={conversionFunction}
               buyable={true}
+              onBuyToken={onBuyToken}
             />) }
         </div>
         <div className={styles.userTokens}>

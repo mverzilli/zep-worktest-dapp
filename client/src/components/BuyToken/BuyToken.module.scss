@@ -1,0 +1,22 @@
+@import '../../layout/variables.scss';
+
+.container {
+  grid-column: span 6;
+  display: grid;
+}
+
+.tokenDetails {
+  grid-column: span 3;
+}
+
+.otherDetails {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  grid-column: span 3;
+}
+
+.heading {
+  grid-column: span 6;
+  margin-bottom: 2rem;
+}
