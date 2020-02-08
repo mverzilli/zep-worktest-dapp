@@ -155,7 +155,7 @@ class App extends Component {
     }));
 
     const ownTokensSupply = await contract.methods.balanceOf(accounts[0]);
-    const ownTokens = await Promise.all([...Array(ownTokensSupply).keys()].map(tokenIndex => {
+    const ownTokens = await Promise.all(indexes.map(tokenIndex => {
       return contract.methods.tokenOfOwnerByIndex(accounts[0], tokenIndex).call();
     }));
 
