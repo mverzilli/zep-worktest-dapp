@@ -84,6 +84,16 @@ class App extends Component {
         }
       }
       if (instance || instanceWallet) {
+        try {
+          const evs = await instance.getPastEvents("allEvents", { fromBlock: 1 });
+          console.log(evs);
+        } catch (err) {
+          console.log('error reading past events', err);
+        }
+
+
+
+
         // Set web3, accounts, and contract to the state, and then proceed with an
         // example of interacting with the contract's methods.
         this.setState(
@@ -172,7 +182,7 @@ class App extends Component {
   };
 
   onBuyToken = async token => {
-    const { accounts, contract } = this.state;
+    const { accounts, contract, route } = this.state;
 
     this.setState({
       route: {
@@ -180,13 +190,37 @@ class App extends Component {
         currentToken: token
       }
     }, async () => {
-      await contract.methods.awardItem(
-        accounts[0],
-        token.id,
-        token.uri,
-        token.price,
-        token.signature
-      ).send({ from: accounts[0], value: token.price });
+      try {
+        await contract.methods.awardItem(
+          accounts[0],
+          token.id,
+          token.uri,
+          token.price,
+          token.signature
+        ).send({ from: accounts[0], value: token.price });
+      } catch (err) {
+        const route2 = this.state.route;
+
+        if (route2.currentToken && route2.currentToken.id === token.id) {
+          if (err.code === 4001) {
+            this.setState({
+              route: {
+                ...this.state.route,
+                error: 'user-rejected'
+              }
+            });
+          } else {
+            this.setState({
+              route: {
+                ...this.state.route,
+                error: 'unknown'
+              }
+            })
+          }
+        }
+
+        return;
+      }
     });
   }
 
@@ -239,6 +273,9 @@ class App extends Component {
             token={route.currentToken}
             conversionFunction={web3.utils.fromWei}
             account={accounts[0]}
+            error={route.error}
+            onRetryPurchase={token => this.onBuyToken(token)}
+            onBackToGallery={() => this.onBackToGallery()}
           />
         );
       default:
@@ -264,6 +301,10 @@ class App extends Component {
 
   onSwitchPage(page) {
     this.setState({route: { id: page }});
+  }
+
+  onBackToGallery() {
+    this.setState({ route: { id: 'buyer' }});
   }
 }
 
