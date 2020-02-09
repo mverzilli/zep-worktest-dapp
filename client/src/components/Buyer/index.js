@@ -14,8 +14,10 @@ const tokenStatus = (tokens, soldTokens, ownTokens) => {
 
   if (soldTokens && ownTokens) {
     for (const token of tokens) {
-      if (soldTokens.includes(token.id) && ownTokens.includes(token.id)) {
-        userTokens.push(token);
+      if (soldTokens.includes(token.id)) {
+        if (ownTokens.includes(token.id)) {
+          userTokens.push(token);
+        }
       } else {
         availableTokens.push(token);
       }
