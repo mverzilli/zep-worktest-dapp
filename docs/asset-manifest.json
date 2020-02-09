@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/zep-worktest-dapp/static/css/main.be647c17.chunk.css",
-    "main.js": "/zep-worktest-dapp/static/js/main.c0e03e7d.chunk.js",
-    "main.js.map": "/zep-worktest-dapp/static/js/main.c0e03e7d.chunk.js.map",
+    "main.css": "/zep-worktest-dapp/static/css/main.f9ff78cb.chunk.css",
+    "main.js": "/zep-worktest-dapp/static/js/main.88b5c8e3.chunk.js",
+    "main.js.map": "/zep-worktest-dapp/static/js/main.88b5c8e3.chunk.js.map",
     "runtime-main.js": "/zep-worktest-dapp/static/js/runtime-main.e71e3fd8.js",
     "runtime-main.js.map": "/zep-worktest-dapp/static/js/runtime-main.e71e3fd8.js.map",
-    "static/js/2.617ab757.chunk.js": "/zep-worktest-dapp/static/js/2.617ab757.chunk.js",
-    "static/js/2.617ab757.chunk.js.map": "/zep-worktest-dapp/static/js/2.617ab757.chunk.js.map",
+    "static/js/2.3d761c39.chunk.js": "/zep-worktest-dapp/static/js/2.3d761c39.chunk.js",
+    "static/js/2.3d761c39.chunk.js.map": "/zep-worktest-dapp/static/js/2.3d761c39.chunk.js.map",
     "index.html": "/zep-worktest-dapp/index.html",
-    "precache-manifest.25a3ad9c93058efe7fbb61632fbfefaa.js": "/zep-worktest-dapp/precache-manifest.25a3ad9c93058efe7fbb61632fbfefaa.js",
+    "precache-manifest.d71fc68b3b608693fef89e1df81c537b.js": "/zep-worktest-dapp/precache-manifest.d71fc68b3b608693fef89e1df81c537b.js",
     "service-worker.js": "/zep-worktest-dapp/service-worker.js",
-    "static/css/main.be647c17.chunk.css.map": "/zep-worktest-dapp/static/css/main.be647c17.chunk.css.map",
-    "static/js/2.617ab757.chunk.js.LICENSE": "/zep-worktest-dapp/static/js/2.617ab757.chunk.js.LICENSE",
+    "static/css/main.f9ff78cb.chunk.css.map": "/zep-worktest-dapp/static/css/main.f9ff78cb.chunk.css.map",
+    "static/js/2.3d761c39.chunk.js.LICENSE": "/zep-worktest-dapp/static/js/2.3d761c39.chunk.js.LICENSE",
     "static/media/MagicToken.sol": "/zep-worktest-dapp/static/media/MagicToken.0ee01e14.sol",
     "static/media/Wallet.sol": "/zep-worktest-dapp/static/media/Wallet.28b0957a.sol",
     "static/media/github.svg": "/zep-worktest-dapp/static/media/github.fb24292f.svg",
@@ -25,8 +25,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.e71e3fd8.js",
-    "static/js/2.617ab757.chunk.js",
-    "static/css/main.be647c17.chunk.css",
-    "static/js/main.c0e03e7d.chunk.js"
+    "static/js/2.3d761c39.chunk.js",
+    "static/css/main.f9ff78cb.chunk.css",
+    "static/js/main.88b5c8e3.chunk.js"
   ]
 }
