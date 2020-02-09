@@ -22,6 +22,7 @@ export default ({ account, conversionFunction, soldTokens }) => {
               tokens={tokens['tokens']}
               soldTokens={soldTokens}
               conversionFunction={conversionFunction}
+              emptyGalleryCopy={"Wohoo! We're sold out!"}
             />
           )
           : <Loader label="Loading token list..." />

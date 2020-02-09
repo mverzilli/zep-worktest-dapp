@@ -54,6 +54,7 @@ export default ({
               conversionFunction={conversionFunction}
               buyable={true}
               onBuyToken={onBuyToken}
+              emptyGalleryCopy={"We ran out of tokens! Stay tuned, we'll cook some more soon :)"}
             />) }
         </div>
         <div className={styles.userTokens}>
@@ -67,6 +68,7 @@ export default ({
               tokens={userTokens}
               conversionFunction={conversionFunction}
               buyable={false}
+              emptyGalleryCopy={"You haven't bought tokens so far. Let's fix that! Pick a token from the list above and click 'Buy'. Go go go! :)"}
             />) }
         </div>
       </Grid>

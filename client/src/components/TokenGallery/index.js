@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './TokenGallery.module.scss';
-
+import { Text } from 'rimble-ui';
 import Token from '../Token';
 
 export default ({
@@ -8,8 +8,15 @@ export default ({
   soldTokens,
   conversionFunction,
   buyable,
-  onBuyToken
+  onBuyToken,
+  emptyGalleryCopy
 }) => {
+  if (tokens && tokens.length === 0) {
+    return (
+      <Text>{emptyGalleryCopy}</Text>
+    )
+  }
+
   return (
     <div className={styles.gallery}>
       {tokens.map(t => (
