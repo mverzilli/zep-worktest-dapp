@@ -190,38 +190,59 @@ class App extends Component {
         currentToken: token
       }
     }, async () => {
-      try {
-        await contract.methods.awardItem(
+        const route2 = this.state.route;
+
+        contract.methods.awardItem(
           accounts[0],
           token.id,
           token.uri,
           token.price,
           token.signature
-        ).send({ from: accounts[0], value: token.price });
-      } catch (err) {
-        const route2 = this.state.route;
-
-        if (route2.currentToken && route2.currentToken.id === token.id) {
-          if (err.code === 4001) {
+        ).send({ from: accounts[0], value: token.price })
+        .on('receipt', receipt => {
+          if (route2.currentToken && route2.currentToken.id === token.id) {
             this.setState({
               route: {
                 ...this.state.route,
-                error: 'user-rejected'
+                receipt: receipt.status
               }
             });
-          } else {
+          }
+        })
+        .on('confirmation', (confirmationNumber, receipt) => {
+          if (route2.currentToken && route2.currentToken.id === token.id) {
             this.setState({
               route: {
                 ...this.state.route,
-                error: 'unknown'
+                receipt: receipt.status,
+                confirmation: true
               }
-            })
+            });
           }
-        }
+        }).on('error', error => {
+          const route2 = this.state.route;
+
+          if (route2.currentToken && route2.currentToken.id === token.id) {
+            if (error.code === 4001) {
+              this.setState({
+                route: {
+                  ...this.state.route,
+                  error: 'user-rejected'
+                }
+              });
+            } else {
+              this.setState({
+                route: {
+                  ...this.state.route,
+                  error: 'unknown'
+                }
+              })
+            }
+          }
+        });
 
         return;
-      }
-    });
+      });
   }
 
   renounceOwnership = async number => {
@@ -274,6 +295,8 @@ class App extends Component {
             conversionFunction={web3.utils.fromWei}
             account={accounts[0]}
             error={route.error}
+            receipt={route.receipt}
+            confirmation={route.confirmation}
             onRetryPurchase={token => this.onBuyToken(token)}
             onBackToGallery={() => this.onBackToGallery()}
           />
