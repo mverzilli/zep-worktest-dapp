@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/zep-worktest-dapp/precache-manifest.0e5ee25b23baf3e9010c16b59f380382.js"
+  "/zep-worktest-dapp/precache-manifest.f59b5f37243eae99e62d90ca5f1d26bd.js"
 );
 
 self.addEventListener('message', (event) => {
