@@ -16,7 +16,7 @@ export default class Hero extends Component {
       <div className={styles.Hero}>
         <div className={styles.hwrapper}>
           <div className={styles.left}>
-            <h1> Welcome to Starter Kit Tutorial! </h1>
+            <h1> Welcome to MagicToken store! </h1>
             <h2>The easiest way to build a Web3 application with the most trusted tools in Ethereum.</h2>
             <div className={styles.sellingpoints}>
               <div className={styles.feature}>
@@ -71,7 +71,7 @@ export default class Hero extends Component {
             </div>
           </div>
           <div className={styles.right}>
-            <img alt="Starter Kit Tutorial" src={logos} />
+            <img alt="MagicToken Store" src={logos} />
           </div>
         </div>
       </div>

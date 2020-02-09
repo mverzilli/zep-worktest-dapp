@@ -1,6 +1,5 @@
 const Web3 = require('web3');
 const HDWalletProvider = require('truffle-hdwallet-provider');
-const { mnemonic, projectId } = require('./secrets.json');
 
 function fixSignature (signature) {
   // in geth its always 27/28, in ganache its 0/1. Change to 27/28 to prevent
@@ -26,10 +25,17 @@ async function sign(web3, contract, tokenId, msg, price, address) {
 }
 
 async function main() {
-  provider = new HDWalletProvider(
-    mnemonic,
-    `https://rinkeby.infura.io/v3/${projectId}`
-  );
+  if (process.env.USE_GANACHE === "1") {
+    console.log('mnemonic', process.env.MNEMONIC);
+    provider = new HDWalletProvider(process.env.MNEMONIC, "http://127.0.0.1:8545");
+  } else {
+    const { mnemonic, projectId } = require('./secrets.json');
+
+    provider = new HDWalletProvider(
+      mnemonic,
+      `https://rinkeby.infura.io/v3/${projectId}`
+    );
+  }
 
   const web3 = new Web3(provider);
 

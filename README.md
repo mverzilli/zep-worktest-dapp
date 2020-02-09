@@ -1,6 +1,6 @@
 # Readme
 
-This repo contains a contract that manages a non-fungible ERC-721 token we very creatively named `MagicToken` and dapp to interact with it as an end user.
+This repo contains a contract that manages a non-fungible ERC-721 token we very creatively named `MagicToken` and a dapp to interact with it as an end user.
 
 Tokens are minted upon purchase, so they need to be generated and signed off chain. There's a couple of utilities in this repo to help with that. The contract verifies the signature of the token the user intends to purchase before minting it. Of course it also validates the token is actually available.
 
@@ -37,7 +37,7 @@ The list of tokens for purchase lets you trigger the token purchase flow. The to
 
 ### Out of scope
 
-There's arguably a lot more that should be done would this dapp be intended for production. I'll list here just some of the shortcomings I'm aware of and I'd have liked to have enough time to address:
+There's arguably a lot more that should be done would this dapp be intended for production. I'll list here just some of the shortcomings I'm aware of and that I would have liked to tackle with enough time to address them:
 
 1. Handling of wallet and network issues (it's currently assuming the happy path where you already have MetaMask set up, are connected to Rinkeby, and have an account there).
 2. Another nuance: it's not listening for account changes in MetaMask, so the banner that displays your current address will get out of sync until you refresh the page.
@@ -47,7 +47,49 @@ There's arguably a lot more that should be done would this dapp be intended for 
 
 ## Developing the project
 
-To Be Expanded: Setting up the dev env
+### Prerequisites
+1. Ganache CLI
+2. OpenZeppelin CLI
+
+### Steps
+
+1. Fork the repo.
+2. `npm install`.
+3. Compile the contract with: `npx oz compile`.
+4. If you want to use Rinkeby, create a `secrets.json` file in the root of your working directory, providing your Infura `projectId` and `mnemonic`. More details on that in the [Configuring Infura](#configuring-infura) section. For now it’s enough to use Ganache, so if you don’t want to provide those Infura details, comment out a couple of lines in the `networks.js` file. The lines to comment out are the one requiring `secrets.json`, and the Rinkeby entry in the `networks` object.
+5. Start ganache: `ganache-cli --deterministic`.
+6. Deploy MagicToken contract using the OpenZeppelin CLI: `npx oz create`.
+7. Answer Yes when Oz asks you whether you want to run an initialization function, and choose the one without arguments.
+8. Write down the deployed contract address, as you will need it later.
+9. [Read the instructions on how to generate tokens and generate a handful of them](#generating-signed-tokens-for-the-app).
+10. Go to `client`, and `npm install`.
+11. Run the app with `SKIP_PREFLIGHT_CHECK=true npm run start`.
+
+
+## Deploying the contract to Rinkeby
+
+Use the OpenZeppelin CLI to deploy MagicToken to Rinkeby. Important: use the first address you have in the network to deploy this contract. Other artifacts in the project asume that will be the owner of the contract and will fail otherwise.
+
+See https://docs.openzeppelin.com/learn/deploying-and-interacting#deploying-a-smart-contract for more details.
+
+
+## Generating signed tokens for the app
+
+For simplicity, at the moment tokens are embedded in the application source code. For the tokens to be buyable, they need to have been signed by the contract owner. This project includes a js script that provides the signing functionality.
+
+Before running the script, there are some necessary configuration steps:
+
+1. [Configure Infura](#configuring-infura) if you're going to be testing on Rinkeby.
+2. [Deploy the MagicToken contract to Rinkeby](#deploying-the-contract-to-rinkeby). Write down the address of the contract you deployed, as it is a necessary parameter for this script.
+3. Invoke the script by running `npx run signToken.js` and setting the following environment variables:
+   1. CONTRACT_ADDRESS: the hex address of the MagicToken you just deployed.
+   2. TOKEN_ID: the id for the token you want to sign.
+   3. TOKEN_URI: the uri of the token you want to sign.
+   4. TOKEN_PRICE: the price for the token you want to sign.
+   5. USE_GANACHE=1: in case you want to test with Ganache.
+   6. MNEMONIC="{the ganache mnemonic}": if you're testing with Ganache.
+4. After a couple of seconds, the script will print the token object. You can copy it from the console and add it to the `data/tokens.json` file, so the dapp picks it up.
+
 
 ## Configuring Infura
 
@@ -57,25 +99,10 @@ To do so, follow the steps described here: https://docs.openzeppelin.com/learn/c
 
 Note that it is important that at the end of this configuration you have a `secrets.json` file at the root level of the project with proper `mnemonics` and `projectId` keys, as there are other project artifacts that rely on this.
 
+## Deploying to GitHub Pages
 
-## Deploying the contract
-
-Use the OpenZeppelin CLI to deploy MagicToken to Rinkeby. Important: use the first address you have in the network to deploy this contract. Other artifacts in the project asume that will be the owner of the contract and will fail otherwise.
-
-See https://docs.openzeppelin.com/learn/deploying-and-interacting#deploying-a-smart-contract for more details.
-
-## Generating signed tokens for the app
-
-For simplicity, at the moment tokens are embedded in the application source code. For the tokens to be buyable, they need to have been signed by the contract owner. This project includes a js script that provides the signing functionality.
-
-Before running the script, there are some necessary configuration steps:
-
-1. [Configure Infura](#configuring-infura)
-2. [Deploy the MagicToken contract to Rinkeby](#deploying-the-contract). Write down the address of the contract you deployed, as it is a necessary parameter for this script.
-3. Invoke the script by running `npx run signToken.js` and setting the following environment variables:
-   1. CONTRACT_ADDRESS: the hex address of the MagicToken you just deployed.
-   2. TOKEN_ID: the id for the token you want to sign.
-   3. TOKEN_URI: the uri of the token you want to sign.
-   4. TOKEN_PRICE: the price for the token you want to sign.
-4. After a couple of seconds, the script will print the token object. You can copy it from the console and add it to the `data/tokens.json` file, so the dapp picks it up.
-
+1. Modify `client/package.json` so that homepage points to your project's GH Pages URI: `https://{your github user}.github.io/{your repos name}/`
+2. Run `npm run build`.
+3. Copy the contents of the `client/build` folder to your `docs` folder.
+4. Follow GH's instructions on how to deploy to GitHub Pages from the `docs` folder of the `master` branch.
+5. `git push` and wait for the site to cook :).
