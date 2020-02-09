@@ -40,9 +40,10 @@ The list of tokens for purchase lets you trigger the token purchase flow. The to
 There's arguably a lot more that should be done would this dapp be intended for production. I'll list here just some of the shortcomings I'm aware of and I'd have liked to have enough time to address:
 
 1. Handling of wallet and network issues (it's currently assuming the happy path where you already have MetaMask set up, are connected to Rinkeby, and have an account there).
-2. Microinteractions to deal with more nuanced cases: eg someone front ran you, or the transaction got rolled back even when there were one or more confirmations (the token listings should be truthful nevertheless, I'm not applying optimistic UI updates there).
-3. Some niceties such as displaying ETH to USD current rates, your balance in comparison to the price of the token you're buying, etc.
-4. A ton of UI cosmetics love.
+2. Another nuance: it's not listening for account changes in MetaMask, so the banner that displays your current address will get out of sync until you refresh the page.
+3. Microinteractions to deal with more nuanced cases: eg someone front ran you, or the transaction got rolled back even when there were one or more confirmations (the token listings should be truthful nevertheless, I'm not applying optimistic UI updates there).
+4. Some niceties such as displaying ETH to USD current rates, your balance in comparison to the price of the token you're buying, etc.
+5. A ton of UI cosmetics love.
 
 ## Developing the project
 
